@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard Warning</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            color: #fff;
+        }
+        #content {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        #line {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(255, 0, 0, 0.9);
+            color: #fff;
+            border: 3px solid #ff0000;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            animation: shake 0.5s infinite, fade-in 0.3s ease-out;
+        }
+        #popup .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-48%, -52%) rotate(-1deg); }
+            50% { transform: translate(-50%, -50%) rotate(1deg); }
+            75% { transform: translate(-52%, -48%) rotate(-1deg); }
+            100% { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <p id="line">Try copying it! If you copy this, DON'T paste it anywhere! ⚠️</p>
+    </div>
+    <div id="popup">
+        <div class="icon">☠️</div>
+        <p>WARNING: Pasting this will cause chaos! 😈</p>
+    </div>
+    <script>
+        const line = document.getElementById("line");
+        const popup = document.getElementById("popup");
+
+        line.addEventListener("copy", (event) => {
+            // Prevent the default copy action
+            event.preventDefault();
+
+            // Replace clipboard content with a warning
+            const warningText = "😈F**k You🖕";
+            if (event.clipboardData) {
+                event.clipboardData.setData("text/plain", warningText);
+            } else if (window.clipboardData) {
+                // For older browsers
+                window.clipboardData.setData("Text", warningText);
+            }
+
+            // Show the popup
+            popup.style.display = "block";
+
+            // Hide the popup after 5 seconds
+            setTimeout(() => {
+                popup.style.display = "none";
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
